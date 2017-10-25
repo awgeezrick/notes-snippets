@@ -35,10 +35,17 @@ git config --global color.ui auto
 
 git config --global core.editor "atom --wait"
 # Configure Atom as default text editor
+
+# Additional configuration settings
+git config --global push.default upstream
+git config --global merge.conflictstyle diff3
+
+# Use .bash_profile file to set default git appearance
+# and actions and store default settings
+# Point .bash_profile toward
+#       git-completion.bash
+#       git-prompt.sh
 ```
-    *
-* git clone https://github.com/udacity/asteroids.git
-    * clones a repository to your local drive
 
 ## Strange error messages
 
@@ -57,19 +64,6 @@ git config --global core.editor "atom --wait"
 # thing to detach the HEAD. Git just warns you so that
 # you’ll realize you’re doing it.
 ```
-* git checkout
-    * reseting all files to the versions at the time a particular commit was made
-*
-    *
-* Bash profile file to set default git appearance and actions
-    * .bash_profile
-        * store default settings
-    * git-completion.bash
-    * git-prompt.sh
-
-Additional configuration settings
-    * git config --global push.default upstream
-git config --global merge.conflictstyle diff3
 
 ## Initializing New Repositories
 
@@ -86,6 +80,13 @@ git init
 git status
 # Confirms that directory is actually a .git repository
 # Shows which files have changed since last commit
+
+git clone https://...git
+# Clones a repository to your local drive
+
+git checkout commitID
+# Resets all files to the versions at the time a particular
+# commit was made
 ```
 ## Adding Changes to a Repository (Staging Area)
 
@@ -139,7 +140,7 @@ git log --graph --oneline branch-name1 branch-name2 …
 Reachability is the concept that commits are ‘reachable’ along a particular branch of commits.
   - Commits in separate branches are not reachable if the commits were made after starting the branch
 
-  - __DETACHED HEAD__s are commits made outside of established branches, and thus un-reachable in any branch git logs
+  - DETACHED HEADs are commits made outside of established branches, and thus un-reachable in any branch git logs
 
 ### Merging Branches
 ```sh
