@@ -1,20 +1,23 @@
 # CLI Tools (misc. Mac OSX) - useful notes and commands
 ----------------------
 # Summary
-This document contains notes and commands for a misc. set of CLI tools I find useful on Mac OSX. These are geared toward my own learning and use of these tools. Therefore, they are written for my personal reference (i.e. things I don't want to forget) and may have limited relevance to other users.
+This document contains notes and commands for a misc. CLI tools I find useful on Mac OSX. These notes are written for my own learning and use of these tools. Therefore, they are __primarily things I don't want to forget__ and may have limited relevance to other users.
 
-Tools for which I have created more extensive notes will likely have their own dedicated .md files. If you don't see a particular tool listed below (e.g. `git` or `psql`), check elsewhere in this repository. If it's a tool I use on a regular basis, it may have it's own dedicated .md file.
+Tools for which I have created more extensive notes will likely have their own dedicated .md files. If you don't see a particular tool listed below (e.g. `git` or `psql`), check elsewhere in this repository a dedicated .md file.
 
 # Contents
 
 - [7z](#7z)
 - [brew](#brew)
+- [docker](#docker)
 - [dot](#dot)
 - [exif](#exif)
 - [htop/top](#htop/top)
+- [jekyll](#jekyll)
 - [pandoc](#pandoc)
 - [sips](#sips)
 - [textutil](#textutil)
+- [vagrant](#vagrant)
 
 # 7z
 This is the P7Zip Unix command-line version of the 7-Zip  tool for packing and unpacking compressed file archives.
