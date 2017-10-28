@@ -3,19 +3,19 @@
 # Contents
 - [Diff](#diff)
 - [Customization](#customization)
-- [Strange Error Messages](#strange)
-- [Initializing New Repos](#initializing)
-- [Adding Changes to a Repo](#adding)
+- [Strange Error Messages](#strange-error-messages)
+- [Initializing New Repos](#initializing-new-repositories)
+- [Adding Changes to a Repo](#adding-changes-to-a-repository)
 - [Commit](#commit)
 - [Branches](#branches)
   - [Reachability](#reachability)
-  - [Merging Branches](#merging)
-  - [Fast Forward Merge](#fast)
-  - [Conflicts Merging](#conflicts)
-- [Remotes and GitHub](#remotes)
-  - [Conflicting Changes LOCAL vs REMOTE](#conflicting)
-  - [Forking a Repo](#forking)
-  - [Pull Requests](#pull)
+  - [Merging Branches](#merging-branches)
+  - [Fast Forward Merge](#fast-forward-merge)
+  - [Conflicts Merging](#conflicts-merging)
+- [Remotes and GitHub](#remotes-and-github)
+  - [Conflicting Changes LOCAL vs REMOTE](#conflicting-changes-local-vs-remote)
+  - [Forking a Repo](#forking-a-repo)
+  - [Pull Requests](#pull-requests)
 
 ## Diff
 ### Compare two files on Mac Terminal (not git)
@@ -105,9 +105,9 @@ git checkout commitID
 # Resets all files to the versions at the time a particular
 # commit was made
 ```
-## Adding Changes to a Repository (Staging Area)
+## Adding Changes to a Repository
 
-Git uses an intermediate staging area to manage and provide control over changes
+Git uses an intermediate __staging area__ to manage and provide control over changes
 
 ```sh
 git add filename.extension
