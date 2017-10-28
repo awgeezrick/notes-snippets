@@ -48,76 +48,142 @@ __PostgreSQL supports the following Data Types__
 ## PRIMARY vs. FOREIGN KEYS
 
 ### Primary Key
-  - each table can have only one primary key
-  - good practice to add a primary key to every table
 
 ```sql
-CREATE TABLE table_name(
-  col_name   data_type PRIMARY KEY,
-  col_name   data_type,…
+/*
+- each table can have only one primary key
+- good practice to add a primary key to every table
+*/
+
+CREATE TABLE table_name (
+  "col_name"   data_type PRIMARY KEY,
+  "col_name"   data_type,…
 )
 
 -- Or, for multi-column primary keys...
 
-CREATE TABLE table_name(
-  col_name1  data_type,
-  col_name2  data_Type,
-  col_name3  data_type,
-  PRIMARY KEY(col_name1, col_name2)
+CREATE TABLE table_name (
+  "col_name1"  data_type NOT NULL,
+  "col_name2"  data_Type NOT NULL,
+  "col_name3"  data_type,
+  PRIMARY KEY ("col_name1", "col_name2")
+);
+
+-- Or, with associated constrain variables...
+
+CREATE TABLE table_name (
+  "col_name1"  data_type NOT NULL,
+  "col_name2"  data_Type,
+  CONSTRAINT constraint_name  -- e.g. table_name_pk
+    PRIMARY KEY ("col_name1")
 );
 ```
 
 ### Foreign Key
-  - Defined in a table that refers to the primary key of the other table
-  - A table can have multiple foreign keys
-  - Table that contains foreign key is called the reference table or child table
-  - Table that foreign key references is called the referenced or parent table.
-  - A ForeignKey constraint maintains referential integrity between child and parent tables
+
+```sql
+/*  
+- Defined in a table that refers to the primary key
+  of the other table
+- A table can have multiple foreign keys
+- Table that contains foreign key is called the
+  reference table or child table
+- Table that foreign key references is called the
+  referenced or parent table.
+- A ForeignKey constraint maintains referential
+  integrity between child and parent tables
+*/
+
+CREATE TABLE table_name (
+  "col_name1"  data_type NOT NULL,
+  "col_name2"  data_Type NOT NULL,
+  CONSTRAINT constraint_name1  -- e.g. table_name_pk
+    PRIMARY KEY ("col_name1")
+  CONSTRAINT constraint_name2 -- e.g. table_name_fk0
+    FOREIGN KEY ("col_name2")
+    REFERENCES "other_table_name"("col_name")
+);
+```
 
 ## CREATE TABLE
-    * Syntax
-        * CREATE TABLE table_name
-(col_name TYPE col_constraint,
-table_constraint)
-INHERITS existing_table_name;
-    * Inherit is optional
-        * It creates all columns of existing table plus new
-    * Shortcut for copying table structure into a new table
-        * CREAT TABLE table_name (LIKE existing_table_name);
-    * COLUMN CONSTRAINTS
-        * NOT NULL
-            * value of column cannot be NULL
-        * UNIQUE
-            * however, can have many NULL values, each NULL value is treated as unique by PostgreSQL
-        * PRIMARY KEY
-            * combination of NOT NULL and UNIQUE constraints
-        * CHECK
-            * enables to check condition when you insert or update data (e.g. checking prices to be positive)
-        * REFERENCES
-            * constrains the value of column that exists in a column of another table
-* INSERT
-    * Allows you to insert one or more rows into a table at a time
-    * syntax
-        * INSERT INTO table( col1, col2, … )
-VALUES (val1, val2, … ),
-              (val1, val2, … ), ... ;
-    * each set of values represent a separate row matching stated columns
-    * INSERT FROM ANOTHER TABLE
-        * INSERT INTO table
+```sql
+
+CREATE TABLE table_name (
+  "col_name" TYPE col_constraint,
+  table_constraint
+)
+  INHERITS existing_table_name;
+
+-- INHERIT is optional
+  -- It creates all columns of existing table plus new
+
+-- Shortcut for copying table structure into a new table...
+
+CREATE TABLE table_name (
+  LIKE existing_table_name
+);
+
+-- COLUMN CONSTRAINTS...
+NOT NULL
+  -- value of column cannot be NULL
+UNIQUE
+  -- however, can have many NULL values
+  -- NULL value is treated as unique by PostgreSQL
+PRIMARY KEY
+  -- combination of NOT NULL and UNIQUE constraints
+CHECK
+  -- enables to check condition when you insert or update data
+  -- (e.g. checking prices to be positive)
+REFERENCES
+  -- constrains the value of column that exists
+    -- in a column of another table
+```
+
+## INSERT
+```sql
+
+/*
+Allows you to insert one or more rows into a
+table at a time
+*/
+
+INSERT INTO table( col1, col2, … )
+VALUES  (val1, val2, … ),
+        (val1, val2, … ),
+        ... ;
+
+-- Each set of values represent a separate
+--    row matching stated columns
+
+-- INSERT FROM ANOTHER TABLE...
+
+INSERT INTO table_name
 SELECT col1, col2, …
 FROM other_table_name
 WHERE condition;
-* UPDATE
-    * Used to update existing data in a table
-    * syntax
-        * UPDATE table
+```
+
+## UPDATE
+```sql
+/*
+Used to update existing data in a table
+*/
+
+UPDATE table_name
 SET col1 = val1,
-        col2 = val 2, …
+    col2 = val 2,
+    …
 WHERE condition;
-    * Can update based on value in another column by specifying
-        * SET col1 = col2
-    * Can also view affected rows by ending query with:
-        * RETURNING col1, col2, … ;
+
+-- Can update based on value in another
+-- column by specifying...
+
+SET col1 = col2
+
+-- Can also view affected rows by ending query with..
+
+RETURNING col1, col2, … ;
+```
 * DELETE
     * Deletes row in a table
         * DELETE FROM table
