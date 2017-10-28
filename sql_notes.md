@@ -107,7 +107,6 @@ CREATE TABLE table_name (
 
 ## CREATE TABLE
 ```sql
-
 CREATE TABLE table_name (
   "col_name" TYPE col_constraint,
   table_constraint
@@ -118,7 +117,6 @@ CREATE TABLE table_name (
   -- It creates all columns of existing table plus new
 
 -- Shortcut for copying table structure into a new table...
-
 CREATE TABLE table_name (
   LIKE existing_table_name
 );
@@ -141,7 +139,6 @@ REFERENCES
 
 ## INSERT
 ```sql
-
 /*
 Allows you to insert one or more rows into a
 table at a time
@@ -156,7 +153,6 @@ VALUES  (val1, val2, … ),
 --    row matching stated columns
 
 -- INSERT FROM ANOTHER TABLE...
-
 INSERT INTO table_name
 SELECT col1, col2, …
 FROM other_table_name
@@ -175,54 +171,87 @@ SET col1 = val1,
     …
 WHERE condition;
 
--- Can update based on value in another
--- column by specifying...
-
+-- Can update based on value in another column by specifying...
 SET col1 = col2
 
 -- Can also view affected rows by ending query with..
 
 RETURNING col1, col2, … ;
 ```
-* DELETE
-    * Deletes row in a table
-        * DELETE FROM table
+## DELETE
+```sql
+/*
+Deletes row in a table
+*/
+
+DELETE FROM table
 WHERE condition;
-    * If you omit the WHERE clause it will delete ALL the rows in the table
-* ALTER TABLE
-    * Changes existing table structure
-    * syntax
-        * ALTER TABLE table_name action;
-    * Action Statements
-        * ADD COLUMN
-        * DROP COLUMN
-        * RENAME COLUMN
-        * ADD CONSTRAINT
-        * RENAME TO
-* DROP TABLE
-    * removes existing table from the database
-        * DROP TABLE [ IF EXISTS ] table_name;
-    * If exists prevents error if table does not exist
-    * add RESTRICT at end of query to prevent DROP TABLE if any other tables are dependent on it
-        * DROP TABLE IF EXITS table_name RESTRICT
-            * PostgreSQL does this be default
-    * add CASCADE to drop table with dependencies
-* CHECK
-    * A kind of constraint that allows you to specify if a value in a column must meet a specific requirement
-    * Uses a boolean expression to evaluate the values of a column
-        * If values pass the check, PostgreSQL will insert and update those values
-    * If you attempt to insert a value that violates the check, PostgreSQL will give an error outlining what CHECK was violated
-        * CREATE TABLE table_name(
-     col1 TYPE CONSTRAINT constraint_name CHECK(col1 condition);
-        * Keyword CONSTRAINT names the constraint that you are checking so that it creates a more readable error message
-        * The constraint name can be omitted if not desired
-* NOT NULL Constraint
-    * NULL is an unknown or missing value
-        * this is different from empty or zero
-    * NOT NULL forces column not to accept the NULL value
-* UNIQUE Constraint
-    * everytime you insert a new role, PostgreSQL will check if the value is already in the table.
-        * if found that it is already there, it will give an error message and reject changes
+
+/*
+NOTE: If you omit the WHERE clause it will
+delete ALL the rows in the table
+*/
+```
+## ALTER TABLE
+```sql
+-- Changes existing table structure
+
+ALTER TABLE table_name action_statement;
+
+-- Action Statements include..
+ADD COLUMN
+DROP COLUMN
+RENAME COLUMN
+ADD CONSTRAINT
+RENAME TO
+```
+## DROP TABLE
+```sql
+-- Removes existing table from the database...
+DROP TABLE [ IF EXISTS ] table_name;
+-- "IF EXISTS" prevents error if table does not exist
+
+-- Add RESTRICT to prevent DROP TABLE if other tables are dependent...
+DROP TABLE IF EXITS table_name RESTRICT
+-- PostgreSQL does this be default.
+
+-- add CASCADE to drop table with dependencies...
+DROP TABLE IF EXITS table_name CASCADE
+```
+## CHECK
+```sql
+/*
+A kind of constraint that allows you to specify
+if a value in a column must meet a specific requirement
+
+  - Uses a boolean expression to evaluate the values
+    of a column
+  - If values pass the check, PostgreSQL will insert
+    and update those values
+  - If you attempt to insert a value that violates the
+    check, PostgreSQL will give an error outlining what
+    CHECK was violated
+*/
+CREATE TABLE table_name(
+  col1 TYPE CONSTRAINT constraint_name CHECK(col1 condition);
+/*
+Keyword CONSTRAINT names the constraint that you
+are checking so that it creates a more readable
+error message.
+
+  - The constraint name can be omitted if not desired
+*/
+```
+## NOT, NOT NULL, UNIQUE Constraints
+
+NULL is an unknown or missing value
+  - this is different from empty or zero
+
+NOT NULL forces column not to accept the NULL value
+
+UNIQUE Constraint...
+  - Everytime you insert a new role, PostgreSQL will check if the value is already in the table.
+  - If found that it is already there, it will give an error message and reject changes
 
 VIEWS
 * View
