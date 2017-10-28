@@ -1,14 +1,31 @@
 # git - useful notes and commands
 ---------------------
-## Compare two files on Mac Terminal (not git)
+# Contents
+- [Diff](#diff)
+- [Customization](#customization)
+- [Strange Error Messages](#strange)
+- [Initializing New Repos](#initializing)
+- [Adding Changes to a Repo](#adding)
+- [Commit](#commit)
+- [Branches](#branches)
+  - [Reachability](#reachability)
+  - [Merging Branches](#merging)
+  - [Fast Forward Merge](#fast)
+  - [Conflicts Merging](#conflicts)
+- [Remotes and GitHub](#remotes)
+  - [Conflicting Changes LOCAL vs REMOTE](#conflicting)
+  - [Forking a Repo](#forking)
+  - [Pull Requests](#pull)
+
+## Diff
+### Compare two files on Mac Terminal (not git)
 
 ```sh
 diff -u filename1 filename2
 # This shows line by line changes with + for new
 # version of a line and - for old version
 ```
-
-## Git diff
+### Git diff
 
 ```sh
 git log
@@ -28,7 +45,7 @@ git reset --hard
 # reset by this command
 ```
 
-## Git Customization
+## Customization
 ```sh
 git config --global color.ui auto
 # Ensures we see color coded change log lines in git diff
@@ -101,7 +118,7 @@ git add -i
 # Initiates an interactive 'git add' menu
 # Useful for adding multiple files
 ```
-## Git Commit
+## Commit
 __Q: How often should you Commit?__ <br>
 __A: A good rule of thumb is one commit per logical change__
 ```sh
@@ -170,8 +187,11 @@ git gc
 # gc = garbage collection
 # Deletes commit IDs for detached heads
 ```
+### Fast Forward Merge
+  - Any time commit 'b' is merged into 'a' and you can get to 'a' backwards from 'b'
+  - The branch you are 'merging into' is an ancestor of a branch your 'merging from'
 
-## Merge Conflicts
+## Conflicts Merging
 ```sh
 # When trying to merge two branches with conflicts,
 # git will present...
@@ -193,7 +213,7 @@ git gc
 #   3. 'git add' the file to the staging area
 #   4. 'git commit' the change to complete the merge
 ```
-## Using GitHub
+## Remotes and GitHub
 ```sh
 # Setup the osxkeychain helper
 git config --global credental.helper osxkeychain
@@ -246,9 +266,6 @@ git fetch
 * Forking is a GitHub convention (GitHub repo to GitHub repo)
 * Allows someone to make a copy of someone else’s repo to their own GitHub account
 
-### Fast Forward Merge
-  - Any time commit 'b' is merged into 'a' and you can get to 'a' backwards from 'b'
-  - The branch you are 'merging into' is an ancestor of a branch your 'merging from'
 
 ### Pull Requests
   1. Go to github, go to branch and click pull request for that branch, make determination as to what pull you are requesting (original non-forked repo or to one of your collaborators)
