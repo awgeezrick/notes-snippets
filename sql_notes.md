@@ -4,7 +4,7 @@
 
 This document contains my personal notes and code samples related to general SQL syntax and related SQL engines (currently just Postgres and the `psql` command-line tool).
 
-__Please note, I am aggregating these notes from various personal sources, and still editing, organizing, and formatting them for presentation in this Markdown document.__
+__Please note, I am aggregating these notes from various personal sources (some old, some new), and still editing, organizing, and formatting them for presentation in this Markdown document.__
 
 # Contents
 -
@@ -57,7 +57,7 @@ __PostgreSQL supports the following Data Types__
 
 CREATE TABLE table_name (
   "col_name"   data_type PRIMARY KEY,
-  "col_name"   data_type,…
+  "col_name"   data_type,...
 )
 
 -- Or, for multi-column primary keys...
@@ -144,9 +144,9 @@ Allows you to insert one or more rows into a
 table at a time
 */
 
-INSERT INTO table( col1, col2, … )
-VALUES  (val1, val2, … ),
-        (val1, val2, … ),
+INSERT INTO table( col1, col2, ... )
+VALUES  (val1, val2, ... ),
+        (val1, val2, ... ),
         ... ;
 
 -- Each set of values represent a separate
@@ -154,7 +154,7 @@ VALUES  (val1, val2, … ),
 
 -- INSERT FROM ANOTHER TABLE...
 INSERT INTO table_name
-SELECT col1, col2, …
+SELECT col1, col2, ...
 FROM other_table_name
 WHERE condition;
 ```
@@ -167,8 +167,8 @@ Used to update existing data in a table
 
 UPDATE table_name
 SET col1 = val1,
-    col2 = val 2,
-    …
+    col2 = val2,
+    ...
 WHERE condition;
 
 -- Can update based on value in another column by specifying...
@@ -176,7 +176,7 @@ SET col1 = col2
 
 -- Can also view affected rows by ending query with..
 
-RETURNING col1, col2, … ;
+RETURNING col1, col2, ... ;
 ```
 ## DELETE
 ```sql
@@ -253,115 +253,179 @@ UNIQUE Constraint...
   - Everytime you insert a new role, PostgreSQL will check if the value is already in the table.
   - If found that it is already there, it will give an error message and reject changes
 
-VIEWS
-* View
-    * A PostgreSQL view is a logical table that represents data of one or more underlying tables through a select statement
-    * Simplifies the complexity of a query because you can query a VIEW, which is based on a complex query
-    * Like a table, you can grant permission to users through a view that contains specific data the user is authorized to see
-    * A view provides a consistent layer even if the columns of the underlying table changes
-    * Syntax
-        * CREATE VIEW view_name AS
-SELECT …. (query content here);
-    * Alter an existing view
-        * ALTER VIEW view_name RENAME view_new_name;
-    * Delete a view
-        * DROP VIEW IF EXISTS view_name;
-    * To view the view table
-        * SELECT * FROM view_name;
+## VIEWS
+```sql
+/*
+- A Postgres view is a logical table that represents
+  data of one or more underlying tables through a
+  select statement
+- Simplifies the complexity of a query because you
+  can query a VIEW, which is based on a complex query
+- Like a table, you can grant permission to users
+  through a view that contains specific data the user
+  is authorized to see
+- A view provides a consistent layer even if the
+  columns of the underlying table changes
+*/
 
+CREATE VIEW view_name AS
+SELECT ...; -- query content goes here
 
-SQL QUERY STATEMENTS
+-- Alter an existing view...
+ALTER VIEW view_name RENAME view_new_name;
+-- Delete a view...
+DROP VIEW IF EXISTS view_name;
+-- To view the view table...
+SELECT * FROM view_name;
+```
 
-* SELECT Statements
-    * Basic Syntax
-        * SELECT column1, column2, … FROM table_name;
-        * ‘ * ‘ is used as the shorthand for all columns in the specified table
-* SELECT DISTINCT
-    * A column may contain duplicate values, and you may want to just grab distinct values
-        * SELECT DISTINCT column1, column2, … FROM table_name;
-* SELECT WHERE
-    * What if you want to query just particular rows matching specific information
-        * SELECT col1, col2, …
+## SQL QUERY STATEMENTS
+
+### SELECT
+
+```sql
+SELECT column1, column2, ... FROM table_name;
+-- ‘ * ‘ is used as the shorthand for all
+--    columns in the specified table.
+```
+#### SELECT DISTINCT
+
+```sql
+-- A column may contain duplicate values
+-- You may want to just grab distinct values with...
+SELECT DISTINCT column1, column2, ... FROM table_name;
+```
+#### SELECT WHERE
+
+```sql
+-- To query rows matching ONLY specific conditions...
+SELECT col1, col2, ...
 FROM table_name
 WHERE condition1 AND condition2;
-    * Basic operators
-        * =, > ,<, >=, <=, <> or !=, AND, OR
-* COUNT
-    * Returns the number of input rows that match a specific condition of a query.
-        * SELECT COUNT(*) FROM table;
-        * SELECT COUNT(column) FROM table;
-            * does not consider null values in a column
-        * SELECT COUNT(DISTINCT column) FROM table;
-            * Can also use two sets of parentheses for readability
-                * SELECT COUNT(DISTINCT (column)) FROM table;
-* LIMIT
-    * Allows you to limit the number of rows you get back after a query
-    * Useful when wanting to get all columns but not all rows
-    * Goes at the end of a query
-        * SELECT col_name1, col_name2
+
+-- Basic operators are...
+=, > ,<, >=, <=, <> or !=, AND, OR
+```
+
+### COUNT
+
+```sql
+-- Returns number of rows matching specific condition(s)...
+SELECT COUNT(*) FROM table;
+
+-- Does not consider null values in a column...
+SELECT COUNT(column) FROM table;
+
+SELECT COUNT(DISTINCT column) FROM table;
+-- Can also use two sets of parentheses for readability...
+SELECT COUNT(DISTINCT (column)) FROM table;
+```
+
+### LIMIT
+
+```sql
+-- Limits the number of rows you get back after a query
+-- Useful when wanting all columns BUT NOT all rows
+-- Goes at the end of a query
+
+SELECT col_name1, col_name2
 FROM table_name
 LIMIT #_desired;
-* ORDER BY
-    * Sorts your result set (instead of appearing in order that rows were inserted into table)
-    * Ascending, descending or by some other sorting criteria
-        * SELECT col1, col2
-        * FROM table
-        * ORDER BY col1 ASC,
-        * col2 DESC;
-    * ascending is default if not specified
-    * PostgreSQL ALSO ALLOWS sorting by columns that are not even listed
-        * other SQL engines might not allow this
-        * It is recommended that you always select the column you want to sort by so the code works in other SQL DBs
-* BETWEEN
-    * Matches a value against a range of values:
-        * WHERE col BETWEEN low AND high
-            * equiv. to >=low and <=high
-        * WHERE col NOT BETWEEN low AND high
-* IN
-    * Used with the WHERE clause to check if a value matches any value in a list of values
-        * WHERE col IN ( value1, value2, … )
-    * Can also have sub-query
-        * WHERE col IN ( SELECT value FROM tbl_name )
-    * Can also use NOT operator
-        * WHERE col NOT IN ( value1, value2, … )
-    * IN is the same as writing
-        * WHERE col = value1
+```
+
+### ORDER BY
+
+```sql
+-- Sorts your result set
+    -- Instead of appearing in order rows were created
+-- Ascending, descending or by some other criteria
+-- Ascending is default if not specified...
+SELECT col1, col2
+FROM table
+ORDER BY col1 ASC,
+col2 DESC;
+
+-- Postgres ALSO ALLOWS sorting by columns not even listed
+    -- Other SQL engines may not allow this
+    -- Good practice it to SELECT column you want to sort
+        -- This ensures query works in other SQL DBs
+```
+### BETWEEN
+
+```sql
+-- Matches a value against a range of values:
+
+WHERE col BETWEEN low AND high
+-- ...is equiv. to >=low and <=high
+
+WHERE col NOT BETWEEN low AND high
+```
+
+### IN
+
+```sql
+-- Used with WHERE clause
+-- Checks if value matches any value in a list of values...
+WHERE col IN ( value1, value2, ... );
+
+-- Can also have sub-query...
+WHERE col IN ( SELECT value FROM tbl_name );
+
+-- Can also use NOT operator...
+WHERE col NOT IN ( value1, value2, ... );
+
+-- IN is the same as writing...
+WHERE col = value1
 OR col = value2
-OR col = …
-* LIKE
-    * Performs pattern matching to find something ‘like’ a particular value
-    * THIS OPERATOR IS CASE SENSITIVE!
-    * the % sign means ‘pattern’
-    * wild card character in SQL are:
-        * % - for matching any sequence of characters
-        * _ - underscore for matching any single character
-    * WHERE col LIKE ‘value%’;
-    * % can be used in the beginning, middle, or end of a sequence:
-        * ‘%value'
-        * ‘%value%'
-        * ‘value%’
-* ILIKE
-    * Works exactly like LIKE operator, but functions with case INSENSITIVITY
-* MIN, MAX, AVG, SUM aggregate functions
-    * Combines everything into a single value
-    * Commonly used with GROUP BY statement
-    * Example without Group By:
-        * SELECT AVG( col ) FROM table;
-    * or to round the final answer to 2 decimal places
-        * SELECT ROUND( AVG( col ) , 2 ) FROM table;
-* GROUP BY
-    * This clause divides the rows returned from the SELECT statement into groups
-    * For each group, you can apply an aggregate function, e.g.:
-        * sum of items
-        * count of number of items in groups
-    * Example:
-        * SELECT col1, AGG_FUNCT( col2 )
+OR col = ...;
+```
+### LIKE
+
+```sql
+-- Matches pattern to find something ‘like’ a given value
+LIKE    -- is Case Sensitive
+ILIKE   -- is Case Insensitive
+
+-- Wild card characters are:
+  %   -- Matches any sequence ('pattern') of characters
+      -- can be used at beginning/middle/end of a sequence
+      '%value'
+      '%value%'
+      'value%'
+  _   -- Matches any single character
+
+-- Example of LIKE with 'pattern' wild card...
+WHERE col LIKE ‘value%’;
+```
+
+### MIN, MAX, AVG, SUM aggregate functions
+```sql
+-- Combines everything into a single value
+-- Commonly used with GROUP BY statement
+
+-- Example without GROUP BY statement...
+SELECT AVG( col ) FROM table;
+-- To round the final answer to 2 decimal places...
+SELECT ROUND( AVG( col ) , 2 ) FROM table;
+```
+
+### GROUP BY
+```sql
+-- Divides rows returned from the SELECT into groups
+-- For each group, can apply an aggregate function, e.g.:
+    -- sum of items
+    -- count of number of items in groups
+SELECT col1, AGG_FUNCT( col2 )
 FROM table
 GROUP BY col1
 ORDER BY AGG_FUNCT(col2);
-    * Without an aggregate function, GROUP BY acts like a DISTINCT clause
-    * PostgreSQL is much more flexible than other SQL engines in terms of what can be done with group by.
-        * for instance, in other engines you will likely need to select the column you are grouping by, or it may require you to include an aggregate function
+
+-- Without aggregate function, GROUP BY acts like DISTINCT
+-- Postgres GROUP BY is more flexible than other engines
+    -- Others may require you SELECT the GROUP BY column
+    -- Or they may require an aggregate function
+```
+
 * HAVING
     * Often used with GROUP BY clause to filter group rows that do not satisfy a specified condition
     * It’s like a WHERE statement, but you’re using it with the GROUP BY clause
@@ -389,7 +453,7 @@ FROM A
 INNER JOIN B B_alias ON A.pka = B_alias.fka;
 * JOINS
         * Allows you to relate data in one table to the data in other tables
-        * Example with columns from tables A and B wherein there is a primary key (pk…) for each table and a foreign key (fk…) that links to the other table’s primary key
+        * Example with columns from tables A and B wherein there is a primary key (pk...) for each table and a foreign key (fk...) that links to the other table’s primary key
             * SELECT A.pka, A.c1, B.pkb, B.c2
 FROM A
 INNER JOIN B ON A.pka = B.fka;
