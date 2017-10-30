@@ -94,6 +94,12 @@ git init
 # At this point, no commits have yet been made
 # You must create the first commit yourself
 
+git --bare init
+# Initializes a new 'bare' .git repository in current directory
+# Bare repositories are not meant to be working directories
+# Instead, when creating a remote 'origin' repository that will
+#   will only be pushed to or pulled from, it should be a bare repo
+
 git status
 # Confirms that directory is actually a .git repository
 # Shows which files have changed since last commit
