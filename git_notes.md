@@ -110,13 +110,22 @@ git checkout commitID
 Git uses an intermediate __staging area__ to manage and provide control over changes
 
 ```sh
-git add filename.extension
+git add filename.ext
 # The 'git add' command adds files to the staging
 # area to await commit
 
 git add -i
 # Initiates an interactive 'git add' menu
 # Useful for adding multiple files
+
+git add -A
+git add --all
+# stages All, same as "git add .;git add -u" below
+git add .
+# stages new and modified, without deleted
+git add -u
+git add --update
+# stages modified and deleted, without new
 ```
 ## Commit
 __Q: How often should you Commit?__ <br>
