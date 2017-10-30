@@ -15,6 +15,7 @@ Tools for which I have created more extensive notes will likely have their own d
 - [htop/top](#htop/top)
 - [jekyll](#jekyll)
 - [pandoc](#pandoc)
+- [shell](#shell)
 - [sips](#sips)
 - [textutil](#textutil)
 - [vagrant](#vagrant)
@@ -50,6 +51,24 @@ Pandoc can convert documents written in one format to a document written in an e
 
   - INTO: HTML formats, Word processor formats, Ebook formats, Documentation formats, Page layout formats, Outline formats, TeX formats, PDF via LaTeX, Other lightweight markup formats.
 
+# shell
+```sh
+echo $PATH
+# ...returns $PATH currently in use by Shell
+
+# IMPORTANT ROOT DIRECTORIES
+/etc/   # configuration files live here
+/var/   # "variable files" that grow or change in size over time
+        #     - typically system and app logs are found here
+/bin/   # "executable binaries" i.e. the applications you run
+/sbin/  # binaries only to be used by root user
+/lib/   # libraries that support binaries located around system
+/usr/   # "user programs" different from bin in that binaries
+        #  within bin are required for bootup and system #  
+        #  processes, while usr are not required for that
+```
+
+
 # sips
 
 The sips (scriptable image processing system) command-line tool is used to query or modify raster image files and ColorSync ICC profiles.
@@ -59,3 +78,31 @@ File formats include: jpeg, tiff, png, gif, jp2, pict, bmp, qtif, psd, sgi, tga
 # textutil
 
 The Text Utility command-line tool can be used to manipulate text files of various formats, using the mechanisms provided by the Cocoa text system. [See Pandoc](#pandoc), a cross-platform alternative, that is capable of doing many more things.
+
+# vagrant
+```sh
+vagrant up
+# ...gets VM up and running
+vagrant ssh
+# ...connect and log into VM after running 'up'
+vagrant suspend
+# work is saved and the machine is put into “sleep mode”
+vagrant halt
+# ...work is saved and machine turned off:
+#   - think of it as “turning the power off”
+vagrant status
+# ...shows current status of VM in current directory:
+#   - e.g. “default running (virtualbox)”
+vagrant global-status
+# ...tells state of all active Vagrant envs on system:
+#   - does not actively verify the state of machines
+#   - is instead based on a cache
+#   - it is possible to see stale results
+vagrant global-status --prune
+# ...removes invalid entries from global index
+vagrant destroy
+# ...destroys the VM
+#   - work is not saved
+#   - think of this as reformatting the hard drive
+#   - can use 'up' to relaunch, but will be baseline Linux install
+```
