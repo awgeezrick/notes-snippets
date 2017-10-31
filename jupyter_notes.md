@@ -33,6 +33,11 @@ c = get_config()
 # Run all nodes interactively
 c.InteractiveShell.ast_node_interactivity = "all"
 ```
+#### Disable warning messages in notebook
+```py
+import warnings
+warnings.simplefilter('ignore')
+```
 <a id="shell"></a>
 ## Execute Shell Commands
 To execute a shell command from within Jupyter notebook, use `!`
