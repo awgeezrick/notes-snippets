@@ -132,6 +132,11 @@ git add .
 git add -u
 git add --update
 # stages modified and deleted, without new
+
+git reset HEAD -- [file-name]
+# removes file (or directory) from the staging area
+# modifications will be kept
+# git status will then show file as modified but not staged
 ```
 ## Commit
 __Q: How often should you Commit?__ <br>
