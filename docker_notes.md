@@ -6,7 +6,7 @@
 - [Resources](#resources)
 - [CLI](#cli)
 - [Container Basics](#container-basics)
-- [](#)
+- [Inspecting Containers](#inspecting-containers)
 
 ## Docker Set Up
 - Docker doesn't run natively on Mac or Windows. Small VM is started and run in background to run Docker
@@ -114,3 +114,51 @@ docker container ls -a
   - Are exited when the process stops
 - When running a container bash command `ps aux` or `ps aux | grep [container-name]` shows all processes running on system
   - Container is listed, but with a different PID
+
+### Inspecting Containers
+```sh
+docker container top [container-name]
+# ...Process list for container
+docker container inspect [container-name]
+# ...Details of container config
+docker container stats
+# ...performance stats for all containers
+```
+
+#### Getting a shell inside containers
+```sh
+# NO SSH NEEDED
+-it # option
+    # -t allocates a pseudo TTY
+    # -i keeps STDIN open even if not attached
+docker container run -it [command]
+# ...starts a new container interactively
+docker container exec -it [command]
+# ...allows you to run commands in a running container
+
+# EXAMPLES...
+docker container run -it --name [container-name] [container-type] bash
+# ...starts new container and takes you to bash prompt as root
+# ...this assumes the container already contains bash
+# ...if not it will need to be added
+exit # typing this in bash prompt exits bash and stops container
+
+docker container exec -it --name [container-name] [container-type] bash
+# ...opens bash prompt for already running container
+exit # exits bash, but does affect root process for running container
+
+docker container run -it ubuntu bash
+# ...this installs full ubuntu instance as container and gives you prompt
+# this is a very minimal version of ubuntu, but can be added to with apt-get...
+apt-get [package-name] # can add any additional tools to install
+```
+# Docker Image Basics
+```sh
+docker pull [image-name]
+# ..docker pulls down latest version of the image
+docker image ls
+# ...the disk size and additional details for all local images
+```
+Different linux distros in containers
+
+Linux Alpine is <4MB in size and contains `sh` not `bash` as its shell
