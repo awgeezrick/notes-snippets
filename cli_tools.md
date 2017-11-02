@@ -9,7 +9,6 @@ Tools for which I have created more extensive notes will likely have their own d
 
 - [7z](#7z)
 - [brew](#brew)
-- [docker](#docker)
 - [dot](#dot)
 - [exif](#exif)
 - [htop/top](#htop/top)
