@@ -31,6 +31,24 @@ docker info
 docker
 # Gives list of management cmds and some sub-cmds
 ```
+#### Docker Bash Completion
+```sh
+# To set up bash completion for Docker...
+#   1. Make certain bash-completion is installed...
+brew install bash-completion
+#   2. Add the following yo .bash_profile ...
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+. $(brew --prefix)/etc/bash_completion
+fi
+#   3. Create symlinks to add docker-specific completions...
+ln -s /Applications/Docker.app/Contents/Resources/etc/docker.bash-completion \     
+      /usr/local/etc/bash_completion.d/docker
+ln -s /Applications/Docker.app/Contents/Resources/etc/docker-machine.bash-completion \
+      /usr/local/etc/bash_completion.d/docker-machine
+ln -s /Applications/Docker.app/Contents/Resources/etc/docker-compose.bash-completion \
+      /usr/local/etc/bash_completion.d/docker-compose
+# Restart bash and docker bash completion should now be working.
+```
 # Container Basics
 
 ```sh
