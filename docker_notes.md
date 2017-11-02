@@ -161,4 +161,58 @@ docker image ls
 ```
 Different linux distros in containers
 
-Linux Alpine is <4MB in size and contains `sh` not `bash` as its shell
+- Linux Alpine is <4MB in size and contains `sh` not `bash` as its shell
+
+# Docker Networks
+
+Docker Networks defaults
+- Each container is connected to a private virtual network bridge
+- Each routes through NAT firewall on host IP
+- All containers on a virtual network can talk to each other without -p
+- Best practice is to create a new virt network for each application. e.g.:
+  - web app network for mysql and php/apache containers
+  - api network for mongo and nodejs containers
+- "Batteries included, but removable"
+- Can make new virtual Networks
+- Can have mult. networks on one container
+- Can skip virt networks and use host host IP (`--net=host`)
+- Use entirely different Docker network drivers based on needed capabilities
+
+```sh
+docker container run -p [host:container]
+# ...(--publish) option exposes the port of container
+docker container port [container-name]
+# ...Returns the ports fowarding traffic to the container from the host
+docker container inspect --format '{{[template-parsing-param]}}' [container-name]
+# ...--format is a common option for formatting
+#       the output of commands using "go templates"
+
+```
+
+### Docker Networks - CLI Management
+```sh
+docker network ls
+# ...shows Networks
+docker network inspect [network-name]
+# ...inspects a network
+docker network create --driver
+# ...creates network using 3rd party driver
+docker network connect [network-name] [container-name]
+# ...attach a network to a container
+docker network disconnect [network-name] [container-name]
+# ...detaches a network from a container
+
+```
+Standard three docker networks
+1. bridge (docker0) - Default virtual network. Is NAT'ed behind the host IP
+2. host - Special network that skips the virtual networking of docker and attaches container directly to host interface
+3. none - removes eth0 and leaves only the localhost interface in the container
+
+### Docker Networks - DNS
+
+- Forget IPs.
+  - Static IPs and using IPs for talking to containers is an anti-pattern. Do your best to avoid it. IPs are too dynamic in the world of docker and micro-services
+- Docker DNS.
+  - Docker daemon has a built-in DNS server that containers use by default.
+  - Docker defaults the hostname to the container's name.
+  - You can also set aliases
