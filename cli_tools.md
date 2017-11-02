@@ -7,6 +7,7 @@ Tools for which I have created more extensive notes will likely have their own d
 
 # Contents
 
+- [bash misc](#bash-misc)
 - [7z](#7z)
 - [brew](#brew)
 - [dot](#dot)
@@ -19,6 +20,12 @@ Tools for which I have created more extensive notes will likely have their own d
 - [textutil](#textutil)
 - [vagrant](#vagrant)
 
+# bash misc
+Miscellaneous useful bash commands I'd like to remember...
+```sh
+ln -s [/path/to/original/] [/path/to/link]
+# ...creates symlink
+```
 # 7z
 This is the P7Zip Unix command-line version of the 7-Zip  tool for packing and unpacking compressed file archives.
   - Packing / unpacking: 7z, XZ, BZIP2, GZIP, TAR, ZIP and WIM
