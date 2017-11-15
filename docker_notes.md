@@ -7,6 +7,8 @@
 - [CLI](#cli)
 - [Container Basics](#container-basics)
 - [Inspecting Containers](#inspecting-containers)
+- [Images](#docker-images)
+- [Dockerfile Basics](#dockerfile)
 
 ## Docker Set Up
 - Docker doesn't run natively on Mac or Windows. Small VM is started and run in background to run Docker
@@ -88,6 +90,7 @@ docker container rm -f [ID]
 # Force removes running container
 ```
 #### Sample code for running, then clearing multiple containers
+Documentation for `docker container run`: https://docs.docker.com/engine/reference/commandline/container_run/
 ```sh
 # Run nginx container...
 docker container run -d --name nginx -p 80:80 nginx
@@ -109,6 +112,8 @@ docker container stop mysql nginx httpd
 docker container rm mysql nginx httpd
 # Confirm removed...
 docker container ls -a
+# To remove containers automatically when stopped...
+--rm # ...add this option to the docker container run command.
 ```
 #### Definitions
 - Image - an application we want to run
@@ -234,3 +239,95 @@ Standard three docker networks
   - Docker daemon has a built-in DNS server that containers use by default.
   - Docker defaults the hostname to the container's name.
   - You can also set aliases
+
+
+## Docker Images
+Definition: An image is an ordered collection of root filesystem changes and the corresponding execution parameters for use within a container runtime.
+
+image layers
+
+
+union file system
+`history` and `inspect` commands
+copy on write
+
+```sh
+docker image ls
+# ...lists all images on local system
+#   REPOSITORY    TAG   IMAGE ID    CREATED   SIZE
+
+docker image history [repository:tag]
+# ...shows layers of changes made in image: history of image layers
+# starts with base layer named "scratch" and shows each change
+# Allows us to never save the same image data on the same system
+#   instead, we are saving the differencing between versions
+#   therefore a container is just a single read/write layer
+#       on top of an image
+
+# defaults to "latest" if no tag is specified
+
+docker image inspect [repository:tag]
+# ...gives you back the metadata about the image
+#     and how it expects to run
+
+docker image tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+# ...assigns one or more tags to an image
+# Should be named "personal-repository/image-name:tag-name"
+#   to ensure you can push to your docker hub repo
+
+# Log-in and log-out from Docker Hub account via CLI...
+docker login
+docker logout
+# ...stores session ID on machine, so logout from shared machine
+
+docker image push SOURCE_IMAGE[:TAG]
+# ...pushes docker image to personal repository
+```
+### Dockerfile
+
+```sh
+# To build docker image from active directory Dockerfile...
+docker image build -t [custom-name] .
+
+# FIVE BASIC STANZAS FOR DOCKERFILE (FROM, ENV, RUN, EXPOSE, CMD)
+
+# BEST PRACTICE:
+#   - Put things that change the most at the bottom of your
+#       Dockerfile
+#   - This is because of docker caching practices and rebuilding
+#       images that have been changed happens in order of lines as
+#       they appear in the Dockerfile
+
+FROM linux-distro:version
+# ...all images must have a FROM statement (usually a minimal
+#     linux distro such as 'alpine')
+WORKDIR /some/path
+# ...changes the working directory to root of container
+#   this is preferred to using "RUN cd /some/path"
+ENV NGINX_VERSION 1.13.6-1~stretch
+# ...optional environment variable used in Dockerfile and set as
+#     envvar when the container is running
+RUN [shell-command] && [shell-command] && ...
+# ...runs shell commands during setup of container
+# ...&& ensures all changes are all placed in one layer
+
+# RUN can also be used to forward request and error logs
+#     to the docker log collector...e.g....
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+    && ln -sf dev/stderr /var/log/nginx/error.log
+
+EXPOSE 80 443
+# ...exposes these ports on the docker virt. network, but still need #      to use -p or -P to open/forward these ports on host
+
+COPY [filename] [filename]
+# ...copies file from root directory and overwrites with out custom
+#     file, such as example of overwriting NGINX default index.html
+#     with a customer index.html
+
+CMD []
+# ...required parameter that is final command run every time a new
+#     container is launched from the image
+# ...every image inherits any CMD stanza from a parent image, so
+#     depending on the source of a dockerfile, this may or may not
+#     be needed.
+```
