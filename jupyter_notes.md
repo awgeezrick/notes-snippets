@@ -10,6 +10,7 @@ There are my personal notes, code snippets, etc. for using Jupyter notebook. The
 - [Execute Shell Commands](#shell)
 - [LaTeX](#latex)
 - [Magics](#magics)
+- [Cursor](#cursor)
 
 <a id="display"></a>
 ## Display Settings
@@ -54,3 +55,10 @@ LaTex formulas will be rendered in Markdown cells using MathJax
 ```latex
 $$ P(A \mid B) = \frac{P(B \mid A) \, P(A)}{P(B)} $$
 ```
+## Magics
+
+## Cursor
+#### Multi-cursor Support
+`Alt + mouse selection` for multi-line selection 
+
+`Ctrl + mouse clicks` for multi-cursor
