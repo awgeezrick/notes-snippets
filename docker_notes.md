@@ -9,6 +9,7 @@
 - [Inspecting Containers](#inspecting-containers)
 - [Images](#docker-images)
 - [Dockerfile Basics](#dockerfile)
+- [Data Science with Docker](#data-science-with-docker)
 
 ## Docker Set Up
 - Docker doesn't run natively on Mac or Windows. Small VM is started and run in background to run Docker
@@ -330,4 +331,21 @@ CMD []
 # ...every image inherits any CMD stanza from a parent image, so
 #     depending on the source of a dockerfile, this may or may not
 #     be needed.
+```
+
+### Data Science with Docker
+I am still in search of the best workflow for data analysis in Python and R using Jupyter Notebooks with Docker containers.
+
+Currently, the most straight forward approach is building and running one of the Jupyter Project's ready-made Docker stacks: <https://github.com/jupyter/docker-stacks>
+
+Jupyter's "datascience-notebook" stack is the most complete for my uses (R and Python mixed analysis in Jupyter), however it is far too large of an image (it includes Julia and a number of R and Python packages I will likely not need to use).
+
+Example provided below. See Jupyter's GitHub repo for more specific directions.
+
+```sh
+
+# Insert path to local host directory I wish to use as my Jupyter working directory.
+
+docker run -it --rm -p 8888:8888 -v ~/path/to/preferred/active/directory:/home/jovyan/work \
+  jupyter/datascience-notebook
 ```
