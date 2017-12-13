@@ -49,6 +49,19 @@ Common ExifTool Mistakes: https://www.sno.phy.queensu.ca/~phil/exiftool/mistakes
 
 Unlike `top`, `htop` provides a full list of processes running.
 
+# jekyll
+
+`jekyll` is a simple, blog-aware, static site generator written in Ruby
+```sh
+# Installing Jekyll on a macOS machine...
+brew install ruby
+gem install jekyll
+gem install bundler
+bundler install
+
+# When running jekyll serve, go to site directory and run...
+bundle exec jekyll serve
+```
 # pandoc
 
 Pandoc can convert documents written in one format to a document written in an entirely different format. Examples include:
