@@ -176,6 +176,13 @@ docker container run -it ubuntu bash
 # this is a very minimal version of ubuntu, but can be added to with apt-get...
 apt-get [package-name] # can add any additional tools to install
 ```
+# Attach Working Directory as Volume (shared filesystem) in Docker Container
+```sh
+# This is accomplished using the -v volume command
+
+docker run -it -v /$PWD:/home/directory ubuntu
+```
+
 # Docker Image Basics
 ```sh
 docker pull [image-name]
